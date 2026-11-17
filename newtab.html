@@ -1,0 +1,121 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="color-scheme" content="light">
+  <title>Leaf Mark</title>
+  <link rel="icon" href="icons/48.png">
+  <link rel="preload" href="assets/fonts/Manrope.ttf" as="font" type="font/ttf" crossorigin>
+  <link rel="stylesheet" href="styles.css">
+  <script type="module" src="app.mjs"></script>
+</head>
+<body>
+  <div class="ambient" aria-hidden="true"><div class="ambient-plane"><div class="color-cloud cloud-blue"></div><div class="color-cloud cloud-pink"></div><div class="color-cloud cloud-peach"></div></div></div>
+  <svg class="svg-defs" aria-hidden="true" xmlns="http://www.w3.org/2000/svg">
+    <defs>
+      <path id="assistant-bubble-outline" vector-effect="non-scaling-stroke" d="M55 8H945Q995 8 995 160V720Q995 880 945 880H900L860 990L820 880H55Q5 880 5 720V160Q5 8 55 8Z"/>
+      <clipPath id="assistant-bubble-clip" clipPathUnits="objectBoundingBox"><use href="#assistant-bubble-outline" transform="scale(.001)"/></clipPath>
+      <symbol id="i-bookmark" viewBox="0 0 24 24"><path d="M6 20V5a2 2 0 0 1 2-2h8a2 2 0 0 1 2 2v15l-6-4z"/></symbol>
+      <symbol id="i-grid" viewBox="0 0 24 24"><rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/><rect x="14" y="14" width="7" height="7" rx="1"/></symbol>
+      <symbol id="i-clock" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></symbol>
+      <symbol id="i-inbox" viewBox="0 0 24 24"><path d="m3 14 3-9h12l3 9v5H3zM3 14h5l1 3h6l1-3h5"/></symbol>
+      <symbol id="i-folder" viewBox="0 0 24 24"><path d="M3 7V5a1 1 0 0 1 1-1h6l2 3h8a1 1 0 0 1 1 1v11a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1z"/></symbol>
+      <symbol id="i-search" viewBox="0 0 24 24"><circle cx="10.5" cy="10.5" r="6.5"/><path d="m16 16 5 5"/></symbol>
+      <symbol id="i-plus" viewBox="0 0 24 24"><path d="M12 5v14M5 12h14"/></symbol>
+      <symbol id="i-close" viewBox="0 0 24 24"><path d="m6 6 12 12M18 6 6 18"/></symbol>
+      <symbol id="i-settings" viewBox="0 0 24 24"><path d="m9 3-1 3-3 1-2 5 2 5 3 1 1 3h6l1-3 3-1 2-5-2-5-3-1-1-3z"/><circle cx="12" cy="12" r="3"/></symbol>
+      <symbol id="i-edit" viewBox="0 0 24 24"><path d="m14 5 5 5M4 20l5-1L21 7l-5-5L4 14z"/></symbol>
+      <symbol id="i-arrow" viewBox="0 0 24 24"><path d="M7 17 17 7M7 7h10v10"/></symbol>
+      <symbol id="i-check" viewBox="0 0 24 24"><path d="m5 12 4 4L19 6"/></symbol>
+      <symbol id="i-grip" viewBox="0 0 24 24"><circle cx="9" cy="5" r="1"/><circle cx="15" cy="5" r="1"/><circle cx="9" cy="12" r="1"/><circle cx="15" cy="12" r="1"/><circle cx="9" cy="19" r="1"/><circle cx="15" cy="19" r="1"/></symbol>
+      <symbol id="i-window" viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="16" rx="2"/><path d="M3 9h18M7 6.5h.1M10 6.5h.1"/></symbol>
+      <symbol id="i-download" viewBox="0 0 24 24"><path d="M12 3v12m-5-5 5 5 5-5M4 16v5h16v-5"/></symbol>
+      <symbol id="i-copy" viewBox="0 0 24 24"><rect x="8" y="8" width="13" height="13" rx="2"/><path d="M16 8V3H3v13h5"/></symbol>
+      <symbol id="i-code" viewBox="0 0 24 24"><path d="m8 6-6 6 6 6m8-12 6 6-6 6m-3-14-2 16"/></symbol>
+      <symbol id="i-trash" viewBox="0 0 24 24"><path d="M3 6h18M9 6V3h6v3M5 6l1 15h12l1-15M10 10v7m4-7v7"/></symbol>
+    </defs>
+  </svg>
+  <a class="skip-link" href="#main">跳到书签内容</a>
+  <aside class="sidebar" aria-label="书签导航">
+    <a class="brand" href="#all" aria-label="Leaf Mark 首页"><img class="brand-mark" src="assets/brand.png" alt="" width="40" height="40"><span class="brand-name"><img class="brand-wordmark" src="assets/wordmark.png" alt="Leaf Mark" width="1672" height="941"></span></a>
+    <nav id="main-nav" aria-label="浏览书签"></nav>
+    <div class="category-heading"><span>我的分类</span><button id="add-category" class="icon-button" type="button" aria-label="新建分类" title="新建分类"><svg><use href="#i-plus"/></svg></button></div>
+    <form id="category-form" aria-labelledby="category-form-title" hidden>
+      <p id="category-form-title">新建分类</p>
+      <label class="sr-only" for="category-name">分类名称</label>
+      <input id="category-name" placeholder="分类名称" maxlength="20" required autocomplete="off">
+      <button class="icon-button" type="submit" aria-label="保存分类"><svg><use href="#i-check"/></svg></button>
+      <button id="cancel-category" class="icon-button" type="button" aria-label="取消编辑分类"><svg><use href="#i-close"/></svg></button>
+      <p id="category-error" role="alert"></p>
+    </form>
+    <nav id="category-nav" aria-label="书签分类"></nav>
+    <div class="sidebar-footer"><button id="settings" class="nav-button" type="button"><svg><use href="#i-settings"/></svg><span>设置</span></button><p>本地整理，安心收藏</p></div>
+  </aside>
+  <main id="main" tabindex="-1">
+    <header class="page-header">
+      <h1 id="page-title" class="journey-title" lang="en">Take the first step on your journey.</h1>
+      <button id="organize" class="primary-button" type="button" aria-pressed="false" disabled><svg><use href="#i-edit"/></svg><span lang="en">Organize</span></button>
+    </header>
+    <form id="web-search" class="search-box" role="search" aria-label="网站搜索"><svg aria-hidden="true"><use href="#i-search"/></svg><label class="sr-only" for="search">Search Google or enter a URL</label><input id="search" name="q" type="search" placeholder="Search Google or enter a URL" autocomplete="off" spellcheck="false" enterkeyhint="search"><kbd id="search-key">Enter</kbd><button id="search-submit" class="search-submit" type="submit"><svg aria-hidden="true"><use href="#i-search"/></svg><span>Search</span></button></form>
+    <div class="content-meta"><p id="hint">正在读取你的书签…</p><span id="result-count" aria-live="polite"></span></div>
+    <div id="error-banner" class="error-banner" role="alert" hidden><span id="error-text"></span><button id="retry" type="button">重试</button></div>
+    <div id="content" aria-busy="true"><div class="empty-state"><span class="loading-dot"></span><p>正在铺开你的收藏…</p></div></div>
+  </main>
+  <dialog id="settings-dialog" aria-labelledby="settings-title">
+    <form method="dialog" class="dialog-header"><h2 id="settings-title">桌面设置</h2><button class="icon-button" aria-label="关闭设置"><svg><use href="#i-close"/></svg></button></form>
+    <label class="setting-row" for="open-new-tab"><span><strong>在新标签页打开书签</strong><small>保留书签桌面，方便继续浏览。</small></span><input id="open-new-tab" type="checkbox" checked></label>
+    <label class="setting-row" for="use-leaf-start"><span><strong>将 Leaf Mark 设为启动页和新标签页</strong><small>默认关闭，开启后在启动和新建标签页时显示。</small></span><input id="use-leaf-start" type="checkbox"></label>
+    <p id="start-setting-error" role="alert" hidden></p>
+    <p class="version">Leaf Mark · 1.10.3</p>
+  </dialog>
+  <dialog id="rename-bookmark-dialog" aria-labelledby="rename-bookmark-title">
+    <form id="rename-bookmark-form">
+      <h2 id="rename-bookmark-title">重命名书签</h2>
+      <label for="bookmark-name">显示名称</label>
+      <input id="bookmark-name" maxlength="200" required autocomplete="off">
+      <p id="bookmark-name-error" role="alert"></p>
+      <div class="dialog-actions"><button id="cancel-bookmark-rename" type="button" class="secondary-button">取消</button><button id="save-bookmark-rename" type="submit" class="primary-button">保存</button></div>
+    </form>
+  </dialog>
+  <dialog id="delete-bookmark-dialog" aria-labelledby="delete-bookmark-title" aria-describedby="delete-bookmark-description">
+    <h2 id="delete-bookmark-title">删除这个书签？</h2>
+    <p id="delete-bookmark-name"></p>
+    <p id="delete-bookmark-url"></p>
+    <p id="delete-bookmark-description">此操作会同时删除 Chrome 中的原书签。</p>
+    <p id="delete-bookmark-error" role="alert"></p>
+    <div class="dialog-actions"><button id="cancel-bookmark-delete" class="secondary-button" type="button" autofocus>取消</button><button id="confirm-bookmark-delete" class="primary-button" type="button">删除书签</button></div>
+  </dialog>
+  <dialog id="delete-category-dialog" aria-labelledby="delete-title" aria-describedby="delete-description">
+    <h2 id="delete-title">删除这个分类？</h2>
+    <p id="delete-description"></p>
+    <p id="delete-error" role="alert"></p>
+    <div class="dialog-actions">
+      <form method="dialog"><button id="cancel-delete-category" class="secondary-button" autofocus>取消</button></form>
+      <button id="confirm-delete-category" class="primary-button" type="button">删除分类</button>
+    </div>
+  </dialog>
+  <div id="category-menu" class="bookmark-menu category-menu" role="menu" aria-label="分类操作" hidden>
+    <button type="button" role="menuitem" data-category-action="rename">重命名</button>
+    <button type="button" role="menuitem" data-category-action="delete">删除</button>
+  </div>
+  <div id="bookmark-menu" class="bookmark-menu" role="menu" aria-label="书签操作" hidden>
+    <button type="button" role="menuitem" data-action="new-tab"><svg><use href="#i-arrow"/></svg><span>在新标签页中打开链接</span></button>
+    <button type="button" role="menuitem" data-action="new-window"><svg><use href="#i-window"/></svg><span>在新窗口中打开链接</span></button>
+    <div class="menu-separator" role="separator"></div>
+    <button type="button" role="menuitem" data-action="save-link"><svg><use href="#i-download"/></svg><span>链接另存为…</span></button>
+    <button type="button" role="menuitem" data-action="copy"><svg><use href="#i-copy"/></svg><span>复制链接地址</span></button>
+    <div class="menu-separator" role="separator"></div>
+    <button type="button" role="menuitem" data-action="rename"><svg><use href="#i-edit"/></svg><span>重命名</span></button>
+    <button type="button" role="menuitem" data-action="delete"><svg><use href="#i-trash"/></svg><span>删除书签</span></button>
+    <div class="menu-separator" role="separator"></div>
+    <button type="button" role="menuitem" data-action="inspect" title="再次右键此书签，在 Chrome 原生菜单中选择检查"><svg><use href="#i-code"/></svg><span>检查</span><small>原生菜单</small></button>
+  </div>
+  <button id="assistant-trigger" class="assistant-trigger" type="button" popovertarget="assistant-bubble" aria-label="Leaf Mark 助手，点击打开对话">
+    <video id="assistant-motion" src="assets/assistant-idle.webm" poster="assets/assistant-still.png" width="1254" height="1254" autoplay loop muted playsinline disablepictureinpicture aria-hidden="true"></video>
+    <img class="assistant-still" src="assets/assistant-still.png" alt="" width="1254" height="1254" draggable="false">
+  </button>
+  <div id="assistant-bubble" class="assistant-bubble" popover="auto" role="status"><svg class="assistant-bubble-frame" viewBox="0 0 1000 1000" preserveAspectRatio="none" aria-hidden="true"><use href="#assistant-bubble-outline" vector-effect="non-scaling-stroke"/></svg><span>今天想做点什么呢？</span></div>
+  <div id="toast" role="status" class="toast" hidden></div>
+</body>
+</html>

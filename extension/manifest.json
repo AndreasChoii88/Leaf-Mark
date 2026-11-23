@@ -1,0 +1,15 @@
+{
+  "manifest_version": 3,
+  "name": "Leaf Mark",
+  "version": "1.10.3",
+  "description": "点击插件图标，以清晰的分类网格浏览和整理全部书签，搜索 Google 或直接访问网站。",
+  "minimum_chrome_version": "114",
+  "permissions": ["bookmarks", "storage", "favicon"],
+  "optional_permissions": ["downloads", "tabs"],
+  "background": { "service_worker": "background.js" },
+  "action": { "default_title": "打开 Leaf Mark", "default_icon": { "16": "icons/16.png", "32": "icons/32.png" } },
+  "icons": { "16": "icons/16.png", "32": "icons/32.png", "48": "icons/48.png", "128": "icons/128.png" },
+  "content_security_policy": {
+    "extension_pages": "default-src 'self'; script-src 'self'; style-src 'self'; img-src 'self'; connect-src 'none'; object-src 'none'; base-uri 'none'; form-action 'none'"
+  }
+}
